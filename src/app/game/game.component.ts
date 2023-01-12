@@ -6,21 +6,28 @@ import { Game } from 'src/models/game'
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
 })
-export class GameComponent implements OnInit{
+export class GameComponent implements OnInit {
   pickCardAnimation = false
-  game: Game;
+  currentCard: string = ''
+  game: Game
 
-  constructor(){}
-ngOnInit(): void{
-  this.newGame();
-  
-}
+  constructor() {}
+  ngOnInit(): void {
+    this.newGame()
+  }
 
   newGame() {
     this.game = new Game()
   }
 
   takeCard() {
-    this.pickCardAnimation = true
+    if (!this.pickCardAnimation) {
+      this.currentCard = this.game.stack.pop()
+      this.pickCardAnimation = true
+
+      setTimeout(() => {
+        this.pickCardAnimation = false
+      }, 1500)
+    }
   }
 }
